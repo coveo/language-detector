@@ -169,16 +169,21 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus snapshot repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus release repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>CoveoCloud</id>
+            <name>CoveoCloud-releases</name>
+            <url>https://maven.cloud.coveo.com/artifactory/libs-release-local</url>
         </repository>
+        <snapshotRepository>
+            <id>CoveoCloud</id>
+            <name>CoveoCloud-snapshots</name>
+            <url>https://maven.cloud.coveo.com/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+        <site>
+            <id></id>
+            <name>${project.artifactId}</name>
+            <url>${project.artifactId}/</url>
+        </site>
     </distributionManagement>
 
     <profiles>
