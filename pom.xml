@@ -225,11 +225,6 @@
             <artifactId>annotations</artifactId>
             <version>12.0</version>
         </dependency>
-        <dependency><!-- used for the Optional and other things -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>19.0</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
