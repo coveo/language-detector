@@ -167,19 +167,13 @@ public final class LanguageProfileImpl implements LanguageProfile {
 
 
     @NotNull @Override
-    public Iterable<Map.Entry<String,Integer>> iterateGrams() {
-        Iterable[] arr = new Iterable[ngrams.size()];
-        int i=0;
-        for (Map<String, Integer> stringIntegerMap : ngrams.values()) {
-            arr[i] = stringIntegerMap.entrySet();
-            i++;
+    public Stream<Map.Entry<String,Integer>> iterateGrams() {
+        Stream<Map.Entry<String,Integer>> concatenedStream = Stream.empty();
+        for (Map<String, Integer> stringIntegerMap : ngrams.values()){
+            concatenedStream = Stream.concat(stringIntegerMap.entrySet().stream(), concatenedStream);
         }
-        Stream concatenedStream = Stream.of(arr[0]);
-        for (int j=1; j < arr.length; j++){
-            Stream stream = Stream.of(arr[j]);
-            concatenedStream = Stream.concat(stream, concatenedStream);
-        }
-        return (Iterable<Map.Entry<String,Integer>>) concatenedStream;
+        return concatenedStream;
+
     }
 
     @NotNull
