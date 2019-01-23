@@ -16,7 +16,6 @@
 
 package com.optimaize.langdetect.ngram;
 
-import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +23,7 @@ import java.util.*;
 
 /**
  * Class for extracting n-grams out of a text.
- *
+ * <p>
  * This class is immutable.
  *
  * @author Fabian Kessler
@@ -39,8 +38,10 @@ public class NgramExtractor {
     private final Character textPadding;
 
     public static NgramExtractor gramLength(int gramLength) {
-        return new NgramExtractor(ImmutableList.of(gramLength), null, null);
+        List<Integer> gramLengths = Collections.unmodifiableList(new ArrayList<>(gramLength));
+        return new NgramExtractor(gramLengths, null, null);
     }
+
     public static NgramExtractor gramLengths(Integer... gramLength) {
         return new NgramExtractor(Arrays.asList(gramLength), null, null);
     }
@@ -65,7 +66,7 @@ public class NgramExtractor {
 
     private NgramExtractor(@NotNull List<Integer> gramLengths, @Nullable NgramFilter filter, @Nullable Character textPadding) {
         if (gramLengths.isEmpty()) throw new IllegalArgumentException();
-        this.gramLengths = ImmutableList.copyOf(gramLengths);
+        this.gramLengths = Collections.unmodifiableList(new ArrayList<>(gramLengths));
         this.filter = filter;
         this.textPadding = textPadding;
     }
@@ -79,7 +80,7 @@ public class NgramExtractor {
      *
      * <p>Example: extractSortedGrams("Foo bar", 2) => [Fo,oo,o , b,ba,ar]</p>
      *
-     * @param  text
+     * @param text
      * @return The grams, empty if the input was empty or if none for that gramLength fits.
      */
     @NotNull
@@ -101,11 +102,11 @@ public class NgramExtractor {
         List<String> grams = new ArrayList<>(totalNumGrams);
 
         for (Integer gramLength : gramLengths) {
-            int numGrams = len - (gramLength -1);
+            int numGrams = len - (gramLength - 1);
             if (numGrams >= 1) { //yes can be negative
-                for (int pos=0; pos<numGrams; pos++) {
+                for (int pos = 0; pos < numGrams; pos++) {
                     String gram = text.subSequence(pos, pos + gramLength).toString();
-                    if (filter==null || filter.use(gram)) {
+                    if (filter == null || filter.use(gram)) {
                         grams.add(gram);
                     }
                 }
@@ -116,11 +117,10 @@ public class NgramExtractor {
 
     /**
      * @return Key = ngram, value = count
-     *         The order is as the n-grams appeared first in the string.
-     *
+     * The order is as the n-grams appeared first in the string.
      */
     @NotNull
-    public Map<String,Integer> extractCountedGrams(@NotNull CharSequence text) {
+    public Map<String, Integer> extractCountedGrams(@NotNull CharSequence text) {
         text = applyPadding(text);
         int len = text.length();
 
@@ -129,7 +129,7 @@ public class NgramExtractor {
             initialCapacity += guessNumDistinctiveGrams(len, gramLength);
         }
 
-        Map<String,Integer> grams = new LinkedHashMap<>(initialCapacity);
+        Map<String, Integer> grams = new LinkedHashMap<>(initialCapacity);
         for (Integer gramLength : gramLengths) {
             _extractCounted(text, gramLength, len, grams);
         }
@@ -138,15 +138,15 @@ public class NgramExtractor {
 
 
     private void _extractCounted(CharSequence text, int gramLength, int len, Map<String, Integer> grams) {
-        int endPos = len - (gramLength -1);
-        for (int pos=0; pos<endPos; pos++) {
+        int endPos = len - (gramLength - 1);
+        for (int pos = 0; pos < endPos; pos++) {
             String gram = text.subSequence(pos, pos + gramLength).toString();
-            if (filter==null || filter.use(gram)) {
+            if (filter == null || filter.use(gram)) {
                 Integer counter = grams.get(gram);
-                if (counter==null) {
+                if (counter == null) {
                     grams.put(gram, 1);
                 } else {
-                    grams.put(gram, counter+1);
+                    grams.put(gram, counter + 1);
                 }
             }
         }
@@ -163,27 +163,27 @@ public class NgramExtractor {
                 return Math.min(80, textLength);
             case 2:
                 if (textLength < 40) return textLength;
-                if (textLength < 100) return (int)(textLength*0.8);
-                if (textLength < 1000) return (int)(textLength * 0.6);
-                return (int)(textLength * 0.5);
+                if (textLength < 100) return (int) (textLength * 0.8);
+                if (textLength < 1000) return (int) (textLength * 0.6);
+                return (int) (textLength * 0.5);
             case 3:
                 if (textLength < 40) return textLength;
-                if (textLength < 100) return (int)(textLength*0.9);
-                if (textLength < 1000) return (int)(textLength * 0.8);
-                return (int)(textLength * 0.6);
+                if (textLength < 100) return (int) (textLength * 0.9);
+                if (textLength < 1000) return (int) (textLength * 0.8);
+                return (int) (textLength * 0.6);
             case 4:
             case 5:
             default:
                 if (textLength < 100) return textLength;
-                if (textLength < 1000) return (int)(textLength * 0.95);
-                return (int)(textLength * 0.9);
+                if (textLength < 1000) return (int) (textLength * 0.95);
+                return (int) (textLength * 0.9);
         }
     }
 
     private CharSequence applyPadding(CharSequence text) {
-        if (textPadding==null) return text;
-        if (text.length()==0) return text;
-        if (text.charAt(0)==textPadding && text.charAt(text.length()-1)==textPadding) {
+        if (textPadding == null) return text;
+        if (text.length() == 0) return text;
+        if (text.charAt(0) == textPadding && text.charAt(text.length() - 1) == textPadding) {
             return text;
         }
         StringBuilder sb = new StringBuilder();
@@ -191,7 +191,7 @@ public class NgramExtractor {
             sb.append(textPadding);
         }
         sb.append(text);
-        if (text.charAt(text.length()-1) != textPadding) {
+        if (text.charAt(text.length() - 1) != textPadding) {
             sb.append(textPadding);
         }
         return sb;

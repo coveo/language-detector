@@ -16,19 +16,22 @@
 
 package com.optimaize.langdetect;
 
-import com.optimaize.langdetect.frma.LangProfileReader;
 import com.optimaize.langdetect.cybozu.util.LangProfile;
-import com.google.common.collect.ImmutableList;
+import com.optimaize.langdetect.frma.LangProfileReader;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.OldLangProfileConverter;
-import com.optimaize.langdetect.text.*;
+import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import static org.testng.Assert.*;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 
 /**
@@ -38,6 +41,9 @@ import static org.testng.Assert.*;
  */
 public class LanguageDetectorImplTest {
 
+    private static String[] languages = new String[]{"en", "fr", "nl", "de"};
+    private static List<String> immutableLanguagesList = Collections.unmodifiableList(Arrays.asList(languages));
+
     @Test(dataProvider = "confident")
     public void confident(String expectedLanguage, CharSequence text) throws Exception {
         LanguageDetector languageDetector = makeNewDetector();
@@ -46,9 +52,10 @@ public class LanguageDetectorImplTest {
         assertEquals(best.getLocale().getLanguage(), expectedLanguage);
         assertTrue(best.getProbability() >= 0.9999d);
     }
+
     @DataProvider
     protected Object[][] confident() {
-        return new Object[][] {
+        return new Object[][]{
                 {"de", "Dies ist eine deutsche Text"},
                 {"de", "deutsche Text"},
                 {"de", CommonTextObjectFactories.forDetectingOnLargeText().create().append("deutsche Text").append(" ").append("http://www.github.com/")},
@@ -58,12 +65,12 @@ public class LanguageDetectorImplTest {
 
     private LanguageDetector makeNewDetector() throws IOException {
         LanguageDetectorBuilder builder = LanguageDetectorBuilder.create(NgramExtractors.standard())
-            .shortTextAlgorithm(50)
-            .prefixFactor(1.5)
-            .suffixFactor(2.0);
+                .shortTextAlgorithm(50)
+                .prefixFactor(1.5)
+                .suffixFactor(2.0);
 
         LangProfileReader langProfileReader = new LangProfileReader();
-        for (String language : ImmutableList.of("en", "fr", "nl", "de")) {
+        for (String language : immutableLanguagesList) {
             LangProfile langProfile = langProfileReader.read(LanguageDetectorImplTest.class.getResourceAsStream("/languages/" + language));
             LanguageProfile languageProfile = OldLangProfileConverter.convert(langProfile);
             builder.withProfile(languageProfile);

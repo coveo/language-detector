@@ -16,7 +16,6 @@
 
 package com.optimaize.langdetect;
 
-import com.google.common.collect.ImmutableSet;
 import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
@@ -24,6 +23,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -42,9 +43,10 @@ public class NgramFrequencyDataTest {
     public static void init() throws IOException {
         allThreeGrams = forAll(3);
     }
+
     private static NgramFrequencyData forAll(int gramSize) throws IOException {
         List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
-        return NgramFrequencyData.create(languageProfiles, ImmutableSet.of(gramSize));
+        return NgramFrequencyData.create(languageProfiles, Collections.unmodifiableSet(new HashSet<>(Collections.singletonList(gramSize))));
     }
 
 
@@ -57,7 +59,7 @@ public class NgramFrequencyDataTest {
     @Test
     public void constantOrder() throws Exception {
         //expect constant order:
-        int pos=0;
+        int pos = 0;
         for (LdLocale locale : allThreeGrams.getLanguageList()) {
             assertEquals(allThreeGrams.getLanguage(pos), locale);
             pos++;

@@ -16,7 +16,7 @@
 
 package com.optimaize.langdetect;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractor;
 import com.optimaize.langdetect.profiles.LanguageProfile;
@@ -43,7 +43,7 @@ public class LanguageDetectorBuilder {
     private final NgramExtractor ngramExtractor;
 
     private double alpha = ALPHA_DEFAULT;
-    private Optional<Long> seed = Optional.absent();
+    private Optional<Long> seed = Optional.empty();
     private int shortTextAlgorithm = 50;
     private double prefixFactor = 1.0d;
     private double suffixFactor = 1.0d;

@@ -105,7 +105,7 @@ public interface LanguageProfile {
      * Iterates all ngram strings with frequency.
      */
     @NotNull
-    Iterable<Map.Entry<String,Integer>> iterateGrams();
+    Iterable iterateGrams();
 
     /**
      * Iterates all gramLength-gram strings with frequency.

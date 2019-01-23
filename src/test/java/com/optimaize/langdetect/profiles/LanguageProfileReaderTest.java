@@ -16,15 +16,12 @@
 
 package com.optimaize.langdetect.profiles;
 
-import com.google.common.collect.ImmutableList;
 import com.optimaize.langdetect.i18n.LdLocale;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -35,12 +32,16 @@ import static org.junit.Assert.*;
  */
 public class LanguageProfileReaderTest {
 
+    private static String[] languages = new String[]{"de", "fr"};
+    private static List<String> immutableLanguagesList = Collections.unmodifiableList(Arrays.asList(languages));
+    private static Integer[] numbers = new Integer[]{1, 2, 3};
+    private static List<Integer> immutableNumbersList = Collections.unmodifiableList(Arrays.asList(numbers));
+
     private static final File PROFILE_DIR = new File(new File(new File(new File("src"), "main"), "resources"), "languages");
 
-
     /*
-    * In case someone creates new language profiles then these numbers need to be adjusted.
-    */
+     * In case someone creates new language profiles then these numbers need to be adjusted.
+     */
 
     @Test
     public void readEnFile() throws IOException {
@@ -68,7 +69,7 @@ public class LanguageProfileReaderTest {
         assertThat(languageProfile, is(notNullValue()));
         assertThat(languageProfile.getLocale().getLanguage(), is(equalTo(language)));
         assertEquals(languageProfile.getGramLengths().size(), nWordSize);
-        assertEquals(languageProfile.getGramLengths(), ImmutableList.of(1, 2, 3));
+        assertEquals(languageProfile.getGramLengths(), immutableNumbersList);
         assertEquals(languageProfile.getNumGrams(), freqSize);
 
         assertTrue(languageProfile.getMinGramCount(nWordSize) < languageProfile.getMaxGramCount(nWordSize));
@@ -76,10 +77,9 @@ public class LanguageProfileReaderTest {
         assertEquals(languageProfile.getMaxGramCount(nWordSize), maxFreq);
     }
 
-
     @Test
     public void readFromDir() throws IOException {
-        List<LanguageProfile> read = new LanguageProfileReader().read(ImmutableList.of("de", "fr"));
+        List<LanguageProfile> read = new LanguageProfileReader().read(immutableLanguagesList);
         assertEquals(read.size(), 2);
     }
 
@@ -88,27 +88,26 @@ public class LanguageProfileReaderTest {
         List<LanguageProfile> read = new LanguageProfileReader().read(
                 LanguageProfileReaderTest.class.getClassLoader(),
                 "languages",
-                ImmutableList.of("de", "fr")
+                immutableLanguagesList
         );
         assertEquals(read.size(), 2);
     }
 
-
     @Test
     public void read() throws IOException {
-        List<LanguageProfile> read = new LanguageProfileReader().read(ImmutableList.of("de", "fr"));
+        List<LanguageProfile> read = new LanguageProfileReader().read(immutableLanguagesList);
         assertEquals(read.size(), 2);
     }
 
     @Test
     public void read_folder() throws IOException {
-        List<LanguageProfile> read = new LanguageProfileReader().read("languages", ImmutableList.of("de", "fr"));
+        List<LanguageProfile> read = new LanguageProfileReader().read("languages", immutableLanguagesList);
         assertEquals(read.size(), 2);
     }
 
     @Test
     public void read_classpathAndFolder() throws IOException {
-        List<LanguageProfile> read = new LanguageProfileReader().read(LanguageProfileReaderTest.class.getClassLoader(), "languages", ImmutableList.of("de", "fr"));
+        List<LanguageProfile> read = new LanguageProfileReader().read(LanguageProfileReaderTest.class.getClassLoader(), "languages", immutableLanguagesList);
         assertEquals(read.size(), 2);
     }
 
@@ -116,11 +115,12 @@ public class LanguageProfileReaderTest {
     public void readAllBuiltIn() throws IOException {
         verify_readAllBuiltIn(new LanguageProfileReader().readAllBuiltIn());
     }
+
     private void verify_readAllBuiltIn(List<LanguageProfile> profiles) {
         assertEquals(profiles.size(), 71); //adjust this number when adding more languages
         Set<LdLocale> allLangs = new HashSet<>();
         for (LanguageProfile profile : profiles) {
-            assertFalse("Duplicate language: "+profile.getLocale(), allLangs.contains(profile.getLocale()));
+            assertFalse("Duplicate language: " + profile.getLocale(), allLangs.contains(profile.getLocale()));
             allLangs.add(profile.getLocale());
         }
         assertTrue(allLangs.contains(LdLocale.fromString("de")));
@@ -128,11 +128,10 @@ public class LanguageProfileReaderTest {
         assertTrue(allLangs.contains(LdLocale.fromString("zh-TW")));
     }
 
-
     @Test
     public void loadProfilesFromClasspath() throws IOException {
-        List<LanguageProfile> result = new LanguageProfileReader().read(this.getClass().getClassLoader(), "languages", ImmutableList.of("en", "fr", "nl", "de"));
-        assertEquals(result.size(), 4);
+        List<LanguageProfile> result = new LanguageProfileReader().read(this.getClass().getClassLoader(), "languages", immutableLanguagesList);
+        assertEquals(result.size(), 2);
     }
 
     @Test
