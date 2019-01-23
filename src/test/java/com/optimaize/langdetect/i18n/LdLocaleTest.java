@@ -27,6 +27,7 @@ public class LdLocaleTest {
         expectJustLanguage("en");
         expectJustLanguage("gsw");
     }
+
     private void expectJustLanguage(String lang) throws Exception {
         LdLocale locale = LdLocale.fromString(lang);
         assertEquals(locale.toString(), lang);
@@ -41,9 +42,10 @@ public class LdLocaleTest {
         expectLanguageAndScript("gsw", "Latn");
         expectLanguageAndScript("zh", "Hans");
     }
+
     private void expectLanguageAndScript(String lang, String script) throws Exception {
-        LdLocale locale = LdLocale.fromString(lang+'-'+script);
-        assertEquals(locale.toString(), lang+'-'+script);
+        LdLocale locale = LdLocale.fromString(lang + '-' + script);
+        assertEquals(locale.toString(), lang + '-' + script);
         assertEquals(locale.getLanguage(), lang);
         assertEquals(locale.getScript().get(), script);
         assertFalse(locale.getRegion().isPresent());
@@ -54,9 +56,10 @@ public class LdLocaleTest {
         expectLanguageAndRegion("en", "UK");
         expectLanguageAndRegion("zh", "CN");
     }
+
     private void expectLanguageAndRegion(String lang, String region) throws Exception {
-        LdLocale locale = LdLocale.fromString(lang+'-'+region);
-        assertEquals(locale.toString(), lang+'-'+region);
+        LdLocale locale = LdLocale.fromString(lang + '-' + region);
+        assertEquals(locale.toString(), lang + '-' + region);
         assertEquals(locale.getLanguage(), lang);
         assertFalse(locale.getScript().isPresent());
         assertEquals(locale.getRegion().get(), region);
@@ -67,14 +70,14 @@ public class LdLocaleTest {
         expectAll("en", "Latn", "UK");
         expectAll("zh", "Hant", "CN");
     }
+
     private void expectAll(String lang, String script, String region) throws Exception {
-        LdLocale locale = LdLocale.fromString(lang+'-'+script+'-'+region);
-        assertEquals(locale.toString(), lang+'-'+script+'-'+region);
+        LdLocale locale = LdLocale.fromString(lang + '-' + script + '-' + region);
+        assertEquals(locale.toString(), lang + '-' + script + '-' + region);
         assertEquals(locale.getLanguage(), lang);
         assertEquals(locale.getScript().get(), script);
         assertEquals(locale.getRegion().get(), region);
     }
-
 
 
     @Test
@@ -82,13 +85,12 @@ public class LdLocaleTest {
         expectEqualsYes("en");
         expectEqualsYes("en-Latn-UK");
     }
+
     private void expectEqualsYes(String s) throws Exception {
         LdLocale locale1 = LdLocale.fromString(s);
         LdLocale locale2 = LdLocale.fromString(locale1.toString());
         assertEquals(locale1, locale2);
     }
-
-
 
 
     @Test
@@ -128,10 +130,11 @@ public class LdLocaleTest {
         expectInvalid("de_CH");
         expectInvalid("de CH");
     }
+
     public void expectInvalid(String s) throws Exception {
         try {
             LdLocale.fromString(s);
-            fail("Expected failure for: "+s);
+            fail("Expected failure for: " + s);
         } catch (IllegalArgumentException e) {
             //ok, expected that
         }

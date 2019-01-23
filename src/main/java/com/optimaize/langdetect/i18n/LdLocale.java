@@ -16,10 +16,11 @@
 
 package com.optimaize.langdetect.i18n;
 
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A language-detector implementation of a Locale, similar to the java.util.Locale.
@@ -83,31 +84,31 @@ public final class LdLocale {
      */
     @NotNull
     public static LdLocale fromString(@NotNull String string) {
-        if (string==null || string.isEmpty()) throw new IllegalArgumentException("At least a language is required!");
+        if (string.isEmpty()) throw new IllegalArgumentException("At least a language is required!");
 
         String language = null;
         Optional<String> script = null;
         Optional<String> region = null;
 
-        String [] items = string.split("-");
+        String[] items = string.split("-");
         List<String> strings = Arrays.asList(items);
-        for (int i=0; i<strings.size(); i++) {
+        for (int i = 0; i < strings.size(); i++) {
             String chunk = strings.get(i);
-            if (i==0) {
+            if (i == 0) {
                 language = assignLang(chunk);
             } else {
                 if (script == null && region == null && looksLikeScriptCode(chunk)) {
                     script = Optional.of(chunk);
-                } else if (region==null && (looksLikeGeoCode3166_1(chunk) || looksLikeGeoCodeNumeric(chunk))) {
+                } else if (region == null && (looksLikeGeoCode3166_1(chunk) || looksLikeGeoCodeNumeric(chunk))) {
                     region = Optional.of(chunk);
                 } else {
-                    throw new IllegalArgumentException("Unknown part: >>>"+chunk+"<<<!");
+                    throw new IllegalArgumentException("Unknown part: >>>" + chunk + "<<<!");
                 }
             }
         }
         assert language != null;
-        if (script==null) script = Optional.empty();
-        if (region==null) region = Optional.empty();
+        if (script == null) script = Optional.empty();
+        if (region == null) region = Optional.empty();
         return new LdLocale(language, script, region);
     }
 
@@ -116,19 +117,22 @@ public final class LdLocale {
     }
 
     private static boolean looksLikeGeoCode3166_1(String string) {
-        return string.length()==2 && string.matches("[A-Z]{2}");
+        return string.length() == 2 && string.matches("[A-Z]{2}");
     }
+
     private static boolean looksLikeGeoCodeNumeric(String string) {
-        return string.length()==3 && string.matches("[0-9]{3}");
+        return string.length() == 3 && string.matches("[0-9]{3}");
     }
 
     private static String assignLang(String s) {
-        if (!s.matches("[a-z]{2,3}")) throw new IllegalArgumentException("Invalid language code syntax: >>>"+s+"<<<!");
+        if (!s.matches("[a-z]{2,3}"))
+            throw new IllegalArgumentException("Invalid language code syntax: >>>" + s + "<<<!");
         return s;
     }
 
     /**
      * The output of this can be fed to the fromString() method.
+     *
      * @return for example "de" or "de-Latn" or "de-CH" or "de-Latn-CH", see class header.
      */
     public String toString() {
@@ -175,7 +179,6 @@ public final class LdLocale {
     }
 
 
-
     @Override //generated-code
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -184,10 +187,7 @@ public final class LdLocale {
         LdLocale ldLocale = (LdLocale) o;
 
         if (!language.equals(ldLocale.language)) return false;
-        if (!region.equals(ldLocale.region)) return false;
-        if (!script.equals(ldLocale.script)) return false;
-
-        return true;
+        return !region.equals(ldLocale.region) && !script.equals(ldLocale.script);
     }
 
     @Override //generated-code

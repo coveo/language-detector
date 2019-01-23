@@ -42,7 +42,7 @@ public class MultiTextFilterTest {
         TextFilter b = text -> text.toString().replace("A", "B");
 
         TextFilter[] replacedCharacters = new TextFilter[]{a, b};
-        List<TextFilter> immutableReplacedCharacters= Collections.unmodifiableList(Arrays.asList(replacedCharacters));
+        List<TextFilter> immutableReplacedCharacters = Collections.unmodifiableList(Arrays.asList(replacedCharacters));
 
         assertEquals(new MultiTextFilter(immutableReplacedCharacters).filter("nananaa"), "nBnBnBB");
     }

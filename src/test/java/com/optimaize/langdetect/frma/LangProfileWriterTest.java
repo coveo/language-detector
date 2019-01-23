@@ -19,44 +19,47 @@ package com.optimaize.langdetect.frma;
 import com.optimaize.langdetect.cybozu.util.LangProfile;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class LangProfileWriterTest {
-	private static final File PROFILE_DIR = new File(new File(new File(new File("src"), "main"), "resources"), "languages");
+    private static final File PROFILE_DIR = new File(new File(new File(new File("src"), "main"), "resources"), "languages");
 
-	@Test
-	public void writeEnProfile() throws IOException {
-		checkProfileCopy("en");
-	}
+    @Test
+    public void writeEnProfile() throws IOException {
+        checkProfileCopy("en");
+    }
 
-	@Test
-	public void writeFrProfile() throws IOException {
-		checkProfileCopy("fr");
-	}
+    @Test
+    public void writeFrProfile() throws IOException {
+        checkProfileCopy("fr");
+    }
 
-	@Test
-	public void writeNlProfile() throws IOException {
-		checkProfileCopy("nl");
-	}
+    @Test
+    public void writeNlProfile() throws IOException {
+        checkProfileCopy("nl");
+    }
 
-	protected void checkProfileCopy(String language) throws IOException {
-		File originalFile = new File(PROFILE_DIR, language);
-		final LangProfile originalProfile = new LangProfileReader().read(originalFile);
-		File newFile = File.createTempFile("profile-copy-", null);
-		try (FileOutputStream output = new FileOutputStream(newFile)) {
-			new LangProfileWriter().write(originalProfile, output);
-			LangProfile newProfile = new LangProfileReader().read(newFile);
-			assertThat(newProfile.getFreq().size(), is(equalTo(originalProfile.getFreq().size())));
-			assertThat(newProfile.getFreq(), is(equalTo(originalProfile.getFreq())));
-			assertThat(newProfile.getNWords(), is(equalTo(originalProfile.getNWords())));
-			assertThat(newProfile.getName(), is(equalTo(originalProfile.getName())));
-		} finally {
+    protected void checkProfileCopy(String language) throws IOException {
+        File originalFile = new File(PROFILE_DIR, language);
+        final LangProfile originalProfile = new LangProfileReader().read(originalFile);
+        File newFile = File.createTempFile("profile-copy-", null);
+        try (FileOutputStream output = new FileOutputStream(newFile)) {
+            new LangProfileWriter().write(originalProfile, output);
+            LangProfile newProfile = new LangProfileReader().read(newFile);
+            assertThat(newProfile.getFreq().size(), is(equalTo(originalProfile.getFreq().size())));
+            assertThat(newProfile.getFreq(), is(equalTo(originalProfile.getFreq())));
+            assertThat(newProfile.getNWords(), is(equalTo(originalProfile.getNWords())));
+            assertThat(newProfile.getName(), is(equalTo(originalProfile.getName())));
+        } finally {
             //noinspection ResultOfMethodCallIgnored
             newFile.delete();
-		}
-	}
+        }
+    }
 
 }

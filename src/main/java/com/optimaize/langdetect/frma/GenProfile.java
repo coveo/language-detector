@@ -28,9 +28,9 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Generate a language profile from any given text file.
- *
+ * <p>
  * TODO this is copy/paste from the other class with the same name. Check if code can be re-used. Rename to something meaningful.
- * 
+ *
  * @author François ROLAND
  */
 public class GenProfile {
@@ -40,7 +40,8 @@ public class GenProfile {
 
     /**
      * Loads a text file and generate a language profile from its content. The input text file is supposed to be encoded in UTF-8.
-     * @param lang target language name.
+     *
+     * @param lang     target language name.
      * @param textFile input text file.
      * @return Language profile instance
      */
@@ -55,7 +56,7 @@ public class GenProfile {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String line;
             while ((line = reader.readLine()) != null) {
-                TextObject textObject = textObjectFactory.forText(" "+line+" ");
+                TextObject textObject = textObjectFactory.forText(" " + line + " ");
                 Util.addCharSequence(profile, textObject);
             }
         } catch (IOException e) {

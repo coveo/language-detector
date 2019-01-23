@@ -77,7 +77,7 @@ public class DataLanguageDetectorImplTest {
 
     @DataProvider
     protected Object[][] shortCleanTexts() {
-        return new Object[][] {
+        return new Object[][]{
                 {"en", shortCleanText("This is some English text.")},
                 {"fr", shortCleanText("Ceci est un texte français.")},
                 {"nl", shortCleanText("Dit is een Nederlandse tekst.")},
@@ -87,13 +87,14 @@ public class DataLanguageDetectorImplTest {
                 {"wa", shortCleanText("Çouchal c' est on tecse pår e walon.")},
         };
     }
+
     private CharSequence shortCleanText(CharSequence text) {
-        return CommonTextObjectFactories.forDetectingShortCleanText().forText( text );
+        return CommonTextObjectFactories.forDetectingShortCleanText().forText(text);
     }
 
     @DataProvider
     protected Object[][] longerWikipediaTexts() {
-        return new Object[][] {
+        return new Object[][]{
                 {"de", largeText(readText("/texts/de-wikipedia-Deutschland.txt"))},
                 {"fr", largeText(readText("/texts/fr-wikipedia-France.txt"))},
                 {"it", largeText(readText("/texts/it-wikipedia-Italia.txt"))},
@@ -116,10 +117,8 @@ public class DataLanguageDetectorImplTest {
     }
 
     private CharSequence largeText(CharSequence text) {
-        return CommonTextObjectFactories.forDetectingOnLargeText().forText( text );
+        return CommonTextObjectFactories.forDetectingOnLargeText().forText(text);
     }
-
-
 
 
 }

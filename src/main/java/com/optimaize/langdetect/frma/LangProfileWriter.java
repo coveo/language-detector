@@ -18,7 +18,10 @@ package com.optimaize.langdetect.frma;
 
 import com.optimaize.langdetect.cybozu.util.LangProfile;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -35,8 +38,8 @@ public class LangProfileWriter {
      *
      * @throws IOException
      */
-	public void write(LangProfile langProfile, OutputStream outputStream) throws IOException {
-		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, Charset.forName("utf-8")))) {
+    public void write(LangProfile langProfile, OutputStream outputStream) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, Charset.forName("utf-8")))) {
             writer.write("{\"freq\":{");
             boolean first = true;
             for (Map.Entry<String, Integer> entry : langProfile.getFreq().entrySet()) {
@@ -63,5 +66,5 @@ public class LangProfileWriter {
             writer.write("\"}");
             writer.flush();
         }
-	}
+    }
 }

@@ -22,6 +22,7 @@ import com.optimaize.langdetect.text.TextObjectFactory;
 /**
  * {@link TagExtractor} is a class which extracts inner texts of specified tag.
  * Users don't use this class directly.
+ *
  * @author Nakatani Shuyo
  */
 public class TagExtractor {
@@ -40,21 +41,26 @@ public class TagExtractor {
         count_ = 0;
         clear();
     }
+
     public int count() {
         return count_;
     }
+
     public void clear() {
         buf_ = new StringBuilder(" ");
         tag_ = null;
     }
-    public void setTag(String tag){
+
+    public void setTag(String tag) {
         tag_ = tag;
     }
+
     public void add(String line) {
         if (tag_ != null && tag_.equals(target_) && line != null) {
             buf_.append(line);
         }
     }
+
     public void closeTag(LangProfile profile) {
         if ((profile != null) && tag_.equals(target_) && (buf_.length() > threshold_) && !isSpace()) {
             Util.addCharSequence(profile, textObjectFactory.forText(buf_));
@@ -64,7 +70,7 @@ public class TagExtractor {
     }
 
     private boolean isSpace() {
-        return (buf_.length()==1 && buf_.toString().equals(" "));
+        return (buf_.length() == 1 && buf_.toString().equals(" "));
     }
 
 }

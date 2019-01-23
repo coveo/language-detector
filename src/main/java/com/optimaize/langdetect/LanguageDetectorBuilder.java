@@ -16,7 +16,6 @@
 
 package com.optimaize.langdetect;
 
-import java.util.Optional;
 import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractor;
 import com.optimaize.langdetect.profiles.LanguageProfile;
@@ -25,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -69,7 +69,8 @@ public class LanguageDetectorBuilder {
 
 
     public LanguageDetectorBuilder alpha(double alpha) {
-        if (alpha<0 || alpha>1) throw new IllegalArgumentException("alpha must be between 0 and 1, but was: "+alpha);
+        if (alpha < 0 || alpha > 1)
+            throw new IllegalArgumentException("alpha must be between 0 and 1, but was: " + alpha);
         this.alpha = alpha;
         return this;
     }
@@ -77,6 +78,7 @@ public class LanguageDetectorBuilder {
     public LanguageDetectorBuilder seed(long seed) {
         return seed(Optional.of(seed));
     }
+
     public LanguageDetectorBuilder seed(@NotNull Optional<Long> seed) {
         this.seed = seed;
         return this;
@@ -93,6 +95,7 @@ public class LanguageDetectorBuilder {
 
     /**
      * Sets prefixFactor() and suffixFactor() both to the given value.
+     *
      * @see #prefixFactor(double)
      */
     public LanguageDetectorBuilder affixFactor(double affixFactor) {
@@ -100,22 +103,26 @@ public class LanguageDetectorBuilder {
         suffixFactor(affixFactor);
         return this;
     }
+
     /**
      * To weight n-grams that are on the left border of a word differently from n-grams
      * in the middle of words, assign a value here.
-     *
+     * <p>
      * Affixes (prefixes and suffixes) often distinguish the specific features of languages.
      * Giving a value greater than 1.0 weights these n-grams higher. A 2.0 weights them double.
-     *
+     * <p>
      * Defaults to 1.0, which means don't use this feature.
+     *
      * @param prefixFactor 0.0 to 10.0, a suggested value is 1.5
      */
     public LanguageDetectorBuilder prefixFactor(double prefixFactor) {
         this.prefixFactor = prefixFactor;
         return this;
     }
+
     /**
      * Defaults to 1.0, which means don't use this feature.
+     *
      * @param suffixFactor 0.0 to 10.0, a suggested value is 2.0
      * @see #prefixFactor(double)
      */
@@ -159,17 +166,18 @@ public class LanguageDetectorBuilder {
      */
     public LanguageDetectorBuilder withProfile(LanguageProfile languageProfile) throws IllegalStateException {
         if (langsAdded.contains(languageProfile.getLocale())) {
-            throw new IllegalStateException("A language profile for language "+languageProfile.getLocale()+" was added already!");
+            throw new IllegalStateException("A language profile for language " + languageProfile.getLocale() + " was added already!");
         }
         for (Integer gramLength : ngramExtractor.getGramLengths()) {
             if (!languageProfile.getGramLengths().contains(gramLength)) {
-                throw new IllegalArgumentException("The NgramExtractor is set to handle "+gramLength+"-grams but the given language profile for "+languageProfile.getLocale()+" does not support this!");
+                throw new IllegalArgumentException("The NgramExtractor is set to handle " + gramLength + "-grams but the given language profile for " + languageProfile.getLocale() + " does not support this!");
             }
         }
         langsAdded.add(languageProfile.getLocale());
         languageProfiles.add(languageProfile);
         return this;
     }
+
     /**
      * @throws IllegalStateException if a profile for the same language was added already (must be a userland bug).
      */

@@ -268,7 +268,7 @@ public class CommandLineInterface {
                         resultCount.put(detectedLang, 1);
                     }
                 }
-                int correct = resultCount.containsKey(lang)?resultCount.get(lang):0;
+                int correct = resultCount.getOrDefault(lang, 0);
                 double rate = correct / (double)count;
                 System.out.println(String.format("%s (%d/%d=%.2f): %s", lang, correct, count, rate, resultCount));
                 totalCorrect += correct;

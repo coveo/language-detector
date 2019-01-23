@@ -282,7 +282,7 @@ public final class LanguageDetectorImpl implements LanguageDetector {
         }
         //step 2: sort in descending order
         if (list.size() >= 2) {
-            Collections.sort(list, PROBABILITY_SORTING_COMPARATOR);
+            list.sort(PROBABILITY_SORTING_COMPARATOR);
         }
         return list;
     }

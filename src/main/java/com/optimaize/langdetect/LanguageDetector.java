@@ -16,10 +16,10 @@
 
 package com.optimaize.langdetect;
 
-import java.util.Optional;
 import com.optimaize.langdetect.i18n.LdLocale;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Guesses the language of an input string or text.
@@ -58,8 +58,8 @@ public interface LanguageDetector {
      *
      * @param text You probably want a {@link com.optimaize.langdetect.text.TextObject}.
      * @return Sorted from better to worse. May be empty.
-     *         It's empty if the program failed to detect any language, or if the input text did not
-     *         contain any usable text (just noise).
+     * It's empty if the program failed to detect any language, or if the input text did not
+     * contain any usable text (just noise).
      */
     List<DetectedLanguage> getProbabilities(CharSequence text);
 

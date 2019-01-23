@@ -54,7 +54,7 @@ public final class NgramFrequencyData {
     /**
      * @param gramLengths for example [1,2,3]
      * @throws java.lang.IllegalArgumentException if languageProfiles or gramLengths is empty, or if one of the
-     *         languageProfiles does not have the grams of the required sizes.
+     *                                            languageProfiles does not have the grams of the required sizes.
      */
     @NotNull
     public static NgramFrequencyData create(@NotNull Collection<LanguageProfile> languageProfiles, @NotNull Collection<Integer> gramLengths) throws IllegalArgumentException {
@@ -69,14 +69,14 @@ public final class NgramFrequencyData {
         for (LanguageProfile profile : languageProfiles) {
             index++;
 
-            langlist.add( profile.getLocale() );
+            langlist.add(profile.getLocale());
 
             for (Integer gramLength : gramLengths) {
                 if (!profile.getGramLengths().contains(gramLength)) {
-                    throw new IllegalArgumentException("The language profile for "+profile.getLocale()+" does not contain "+gramLength+"-grams!");
+                    throw new IllegalArgumentException("The language profile for " + profile.getLocale() + " does not contain " + gramLength + "-grams!");
                 }
                 for (Map.Entry<String, Integer> ngramEntry : profile.iterateGrams(gramLength)) {
-                    String ngram      = ngramEntry.getKey();
+                    String ngram = ngramEntry.getKey();
                     Integer frequency = ngramEntry.getValue();
                     if (!wordLangProbMap.containsKey(ngram)) {
                         wordLangProbMap.put(ngram, new double[langsize]);
@@ -102,6 +102,7 @@ public final class NgramFrequencyData {
     public List<LdLocale> getLanguageList() {
         return langlist;
     }
+
     @NotNull
     public LdLocale getLanguage(int pos) {
         return langlist.get(pos);
@@ -109,10 +110,11 @@ public final class NgramFrequencyData {
 
     /**
      * Don't modify this data structure! (Can't make array immutable...)
+     *
      * @return null if no language profile knows that ngram.
-     *         entries are 0 for languages that don't know that ngram at all.
-     *         The array is in the order of the {@link #getLanguageList()} language list, and has exactly that size.
-     *         impl note: this way the caller can handle it more efficient than returning an empty array.
+     * entries are 0 for languages that don't know that ngram at all.
+     * The array is in the order of the {@link #getLanguageList()} language list, and has exactly that size.
+     * impl note: this way the caller can handle it more efficient than returning an empty array.
      */
     @Nullable
     public double[] getProbabilities(String ngram) {

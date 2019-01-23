@@ -19,8 +19,7 @@ package com.optimaize.langdetect.cybozu.util;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Nakatani Shuyo
@@ -43,19 +42,19 @@ public class NGramTest {
     @Test
     public final void testNGram() {
         NGram ngram = new NGram();
-        assertEquals(ngram.get(0), null);
-        assertEquals(ngram.get(1), null);
-        assertEquals(ngram.get(2), null);
-        assertEquals(ngram.get(3), null);
-        assertEquals(ngram.get(4), null);
+        assertNull(ngram.get(0));
+        assertNull(ngram.get(1));
+        assertNull(ngram.get(2));
+        assertNull(ngram.get(3));
+        assertNull(ngram.get(4));
         ngram.addChar(' ');
-        assertEquals(ngram.get(1), null);
-        assertEquals(ngram.get(2), null);
-        assertEquals(ngram.get(3), null);
+        assertNull(ngram.get(1));
+        assertNull(ngram.get(2));
+        assertNull(ngram.get(3));
         ngram.addChar('A');
         assertEquals(ngram.get(1), "A");
         assertEquals(ngram.get(2), " A");
-        assertEquals(ngram.get(3), null);
+        assertNull(ngram.get(3));
         ngram.addChar('\u06cc');
         assertEquals(ngram.get(1), "\u064a");
         assertEquals(ngram.get(2), "A\u064a");
@@ -82,14 +81,14 @@ public class NGramTest {
         assertEquals(ngram.get(2), "\u3105\uac00");
         assertEquals(ngram.get(3), "\u30a2\u3105\uac00");
         ngram.addChar('\u2010');
-        assertEquals(ngram.get(1), null);
+        assertNull(ngram.get(1));
         assertEquals(ngram.get(2), "\uac00 ");
         assertEquals(ngram.get(3), "\u3105\uac00 ");
 
         ngram.addChar('a');
         assertEquals(ngram.get(1), "a");
         assertEquals(ngram.get(2), " a");
-        assertEquals(ngram.get(3), null);
+        assertNull(ngram.get(3));
     }
    
 }

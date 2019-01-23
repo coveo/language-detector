@@ -26,38 +26,38 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class LangProfileReaderTest {
-	private static final File PROFILE_DIR = new File(new File(new File(new File("src"), "main"), "resources"), "languages");
+    private static final File PROFILE_DIR = new File(new File(new File(new File("src"), "main"), "resources"), "languages");
 
-	@Test
-	public void readEnFile() throws IOException {
-		checkProfileFile("en", 3, 2301);
-	}
+    @Test
+    public void readEnFile() throws IOException {
+        checkProfileFile("en", 3, 2301);
+    }
 
-	@Test
-	public void readBnFile() throws IOException {
-		checkProfileFile("bn", 3, 2846);
-	}
+    @Test
+    public void readBnFile() throws IOException {
+        checkProfileFile("bn", 3, 2846);
+    }
 
-	@Test
-	public void readFrFile() throws IOException {
-		checkProfileFile("fr", 3, 2232);
-	}
+    @Test
+    public void readFrFile() throws IOException {
+        checkProfileFile("fr", 3, 2232);
+    }
 
-	@Test
-	public void readNlFile() throws IOException {
-		checkProfileFile("nl", 3, 2163);
-	}
+    @Test
+    public void readNlFile() throws IOException {
+        checkProfileFile("nl", 3, 2163);
+    }
 
 
-	private static void checkProfileFile(String language, int nWordSize, int freqSize) throws IOException {
-		File profileFile = new File(PROFILE_DIR, language);
-		final LangProfile langProfile = new LangProfileReader().read(profileFile);
-		assertThat(langProfile, is(notNullValue()));
-		assertThat(langProfile.getName(), is(equalTo(language)));
-		assertThat(langProfile.getNWords(), is(notNullValue()));
-		assertThat(langProfile.getNWords().length, is(equalTo(nWordSize)));
-		assertThat(langProfile.getFreq(), is(notNullValue()));
-		assertThat(langProfile.getFreq().size(), is(equalTo(freqSize)));
-	}
+    private static void checkProfileFile(String language, int nWordSize, int freqSize) throws IOException {
+        File profileFile = new File(PROFILE_DIR, language);
+        final LangProfile langProfile = new LangProfileReader().read(profileFile);
+        assertThat(langProfile, is(notNullValue()));
+        assertThat(langProfile.getName(), is(equalTo(language)));
+        assertThat(langProfile.getNWords(), is(notNullValue()));
+        assertThat(langProfile.getNWords().length, is(equalTo(nWordSize)));
+        assertThat(langProfile.getFreq(), is(notNullValue()));
+        assertThat(langProfile.getFreq().size(), is(equalTo(freqSize)));
+    }
 
 }

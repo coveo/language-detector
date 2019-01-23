@@ -22,7 +22,6 @@ import org.junit.Test;
 
 /**
  * @author Nakatani Shuyo
- *
  */
 public class TagExtractorTest {
 
@@ -32,13 +31,13 @@ public class TagExtractorTest {
     @Test
     public final void testTagExtractor() {
         TagExtractor extractor = new TagExtractor(null, 0);
-        assertEquals(extractor.target_, null);
+        assertNull(extractor.target_);
         assertEquals(extractor.threshold_, 0);
 
         TagExtractor extractor2 = new TagExtractor("abstract", 10);
         assertEquals(extractor2.target_, "abstract");
         assertEquals(extractor2.threshold_, 10);
-}
+    }
 
     /**
      * Test method for {@link TagExtractor#setTag(java.lang.String)}.
@@ -49,7 +48,7 @@ public class TagExtractorTest {
         extractor.setTag("");
         assertEquals(extractor.tag_, "");
         extractor.setTag(null);
-        assertEquals(extractor.tag_, null);
+        assertNull(extractor.tag_);
     }
 
     /**
@@ -72,7 +71,7 @@ public class TagExtractorTest {
         extractor.closeTag(profile);    // ignore
     }
 
-    
+
     /**
      * Scenario Test of extracting &lt;abstract&gt; tag from Wikipedia database.
      */
@@ -117,8 +116,6 @@ public class TagExtractorTest {
         assertEquals(extractor.tag_, "abstract");
         extractor.clear();
         assertEquals(extractor.buf_.toString().trim(), "");
-        assertEquals(extractor.tag_, null);
+        assertNull(extractor.tag_);
     }
-
-
 }
