@@ -27,6 +27,7 @@ import java.util.*;
 public class BuiltInLanguages {
 
     private static final List<LdLocale> languages;
+    private static final List<String> shortTextLanguages;
 
     static {
         List<LdLocale> names = new ArrayList<>();
@@ -107,6 +108,28 @@ public class BuiltInLanguages {
         languages = Collections.unmodifiableList(new ArrayList<>(names));
     }
 
+    static {
+        List<String> texts = new ArrayList<>();
+        texts.add("cs");
+        texts.add("da");
+        texts.add("de");
+        texts.add("en");
+        texts.add("es");
+        texts.add("fi");
+        texts.add("fr");
+        texts.add("id");
+        texts.add("it");
+        texts.add("nl");
+        texts.add("no");
+        texts.add("pl");
+        texts.add("pt");
+        texts.add("ro");
+        texts.add("sv");
+        texts.add("tr");
+        texts.add("vi");
+        shortTextLanguages = Collections.unmodifiableList(new ArrayList<>(texts));
+    }
+
     /**
      * Returns the languages for which the library provides full profiles.
      * Full provides are generated from regular text, usually Wikipedia abstracts.
@@ -116,4 +139,13 @@ public class BuiltInLanguages {
         return languages;
     }
 
+    /**
+     * Returns the languages for which the library provides profiles created from short text.
+     * Twitter was used as source by @shuyo.
+     * Much less languages have short text profiles as of now.
+     * @return immutable
+     */
+    public static List<String> getShortTextLanguages() {
+        return shortTextLanguages;
+    }
 }
