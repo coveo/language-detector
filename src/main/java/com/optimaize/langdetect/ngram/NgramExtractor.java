@@ -38,8 +38,9 @@ public class NgramExtractor {
     private final Character textPadding;
 
     public static NgramExtractor gramLength(int gramLength) {
-        List<Integer> gramLengths = Collections.unmodifiableList(new ArrayList<>(gramLength));
-        return new NgramExtractor(gramLengths, null, null);
+        List <Integer> gramLengths = new ArrayList<>(gramLength);
+        List<Integer> unmodifiableGramLengths = Collections.unmodifiableList(gramLengths);
+        return new NgramExtractor(unmodifiableGramLengths, null, null);
     }
 
     public static NgramExtractor gramLengths(Integer... gramLength) {
