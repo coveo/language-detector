@@ -19,7 +19,6 @@ package com.optimaize.langdetect.cybozu.util;
 import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractor;
 import com.optimaize.langdetect.ngram.NgramExtractors;
-import com.optimaize.langdetect.ngram.OldNgramExtractor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Formatter;
@@ -36,26 +35,7 @@ public class Util {
     private static final NgramExtractor ngramExtractor = NgramExtractors.standard();
 
     public static void addCharSequence(LangProfile langProfile, CharSequence text) {
-        //TODO replace with new code.
-
-//        List<String> old = OldNgramExtractor.extractNGrams(text, null);
-//        List<String> nuu = ngramExtractor.extractGrams(text);
-//
-//        Set<String> oldSet = new HashSet<>(old);
-//        Set<String> nuuSet = new HashSet<>(nuu);
-//
-//        ArrayList<String> justNuu = new ArrayList<>(nuu);
-//        justNuu.removeAll(old);
-//
-//        ArrayList<String> justOld = new ArrayList<>(old);
-//        justOld.removeAll(nuu);
-//
-//        System.out.println(text);
-
-//        for (String s : ngramExtractor.extractGrams(text)) {
-//            langProfile.add(s);
-//        }
-        for (String s : OldNgramExtractor.extractNGrams(text, null)) {
+        for (String s : ngramExtractor.extractGrams(text)) {
             langProfile.add(s);
         }
     }

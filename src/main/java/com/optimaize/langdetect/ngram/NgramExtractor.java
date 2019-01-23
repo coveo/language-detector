@@ -142,12 +142,7 @@ public class NgramExtractor {
         for (int pos = 0; pos < endPos; pos++) {
             String gram = text.subSequence(pos, pos + gramLength).toString();
             if (filter == null || filter.use(gram)) {
-                Integer counter = grams.get(gram);
-                if (counter == null) {
-                    grams.put(gram, 1);
-                } else {
-                    grams.put(gram, counter + 1);
-                }
+                grams.merge(gram, 1, (a, b) -> a + b);
             }
         }
     }
