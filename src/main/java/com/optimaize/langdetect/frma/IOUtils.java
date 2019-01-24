@@ -21,28 +21,30 @@ import java.io.IOException;
 
 /**
  * Utils to manage IO streams.
+ *
  * @author François ROLAND
  */
 @Deprecated
 public class IOUtils {
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private IOUtils() {}
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private IOUtils() {
+    }
 
-	/**
-	 * Closes a stream without returning any exception.
-	 * 
-	 * @param stream the stream to close. Can be <code>null</code>.
+    /**
+     * Closes a stream without returning any exception.
+     *
+     * @param stream the stream to close. Can be <code>null</code>.
      * @deprecated use java7 closeable
-	 */
-	public static void closeQuietly(Closeable stream) {
-		if (stream != null) {
-			try {
-				stream.close();
-			} catch (IOException ioe) {
-				// ignore exception at this point.
-			}
-		}
-	}
+     */
+    public static void closeQuietly(Closeable stream) {
+        if (stream != null) {
+            try {
+                stream.close();
+            } catch (IOException ioe) {
+                // ignore exception at this point.
+            }
+        }
+    }
 }

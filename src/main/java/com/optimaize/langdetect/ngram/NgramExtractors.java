@@ -28,24 +28,11 @@ public class NgramExtractors {
             .filter(StandardNgramFilter.getInstance())
             .textPadding(' ');
 
-    private static final NgramExtractor BACKWARDS = NgramExtractor
-            .gramLengths(1, 2, 3)
-            .filter(BackwardsCompatibleNgramFilter.getInstance())
-            .textPadding(' ');
-
-
     /**
      * The new standard n-gram algorithm.
      */
     public static NgramExtractor standard() {
         return STANDARD;
-    }
-
-    /**
-     * The old way of doing n-grams.
-     */
-    public static NgramExtractor backwards() {
-        return BACKWARDS;
     }
 
 }

@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO document.
- *
+ * <p>
  * Users don't use this class directly.
- *
+ * <p>
  * TODO this class treats a word as "upper case" if the first 2 characters are upper case. That seems like a simplification,
  * would need documentation.
  *
@@ -49,13 +49,13 @@ public class NGram {
         if (lastChar == ' ') {
             grams_ = new StringBuilder(" ");
             capitalword_ = false;
-            if (ch==' ') return;
+            if (ch == ' ') return;
         } else if (grams_.length() >= N_GRAM) {
             grams_.deleteCharAt(0);
         }
         grams_.append(ch);
 
-        if (Character.isUpperCase(ch)){
+        if (Character.isUpperCase(ch)) {
             if (Character.isUpperCase(lastChar)) capitalword_ = true;
         } else {
             capitalword_ = false;
@@ -64,15 +64,16 @@ public class NGram {
 
     /**
      * TODO this method has some weird, undocumented behavior to ignore ngrams with upper case.
-     *
+     * <p>
      * Get n-Gram
+     *
      * @param n length of n-gram
      * @return n-Gram String (null if it is invalid)
      */
     @Nullable
     public String get(int n) {
         if (capitalword_) return null;
-        int len = grams_.length(); 
+        int len = grams_.length();
         if (n < 1 || n > N_GRAM || len < n) return null;
         if (n == 1) {
             char ch = grams_.charAt(len - 1);

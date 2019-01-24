@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Writes a {@link LanguageProfile} to an output stream or file.
@@ -41,7 +42,7 @@ public class LanguageProfileWriter {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, Charset.forName("utf-8")))) {
             writer.write("{\"freq\":{");
             boolean first = true;
-            for (Map.Entry<String, Integer> entry : languageProfile.iterateGrams()) {
+            for (Map.Entry<String, Integer> entry : languageProfile.iterateGrams().collect(Collectors.toList())) {
                 if (!first) {
                     writer.write(',');
                 }

@@ -32,7 +32,7 @@ public class LangProfileTest {
     @Test
     public final void testLangProfile() {
         LangProfile profile = new LangProfile();
-        assertEquals(profile.getName(), null);
+        assertNull(profile.getName());
     }
 
     /**
@@ -94,9 +94,9 @@ public class LangProfileTest {
         assertEquals((int)profile.getFreq().get("\u3042"), 5);
         assertEquals((int)profile.getFreq().get("\u3050"), 1);
         profile.omitLessFreq();
-        assertEquals(profile.getFreq().get("a"), null); // omitted
+        assertNull(profile.getFreq().get("a")); // omitted
         assertEquals((int)profile.getFreq().get("\u3042"), 5);
-        assertEquals(profile.getFreq().get("\u3050"), null); // omitted
+        assertNull(profile.getFreq().get("\u3050")); // omitted
     }
 
     @Test(expected = IllegalStateException.class)

@@ -16,10 +16,11 @@
 
 package com.optimaize.langdetect.text;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,18 +36,14 @@ public class MultiTextFilterTest {
 
     @Test
     public void doubleFilter() throws Exception {
-        assertEquals(new MultiTextFilter(ImmutableList.of(
-                new TextFilter() {
-                    @Override
-                    public String filter(CharSequence text) {
-                        return text.toString().replace("a", "A");
-                    }
-                }, new TextFilter() {
-                    @Override
-                    public String filter(CharSequence text) {
-                        return text.toString().replace("A", "B");
-                    }
-                }
-        )).filter("nananaa"), "nBnBnBB");
+
+        TextFilter a = text -> text.toString().replace("a", "A");
+
+        TextFilter b = text -> text.toString().replace("A", "B");
+
+        TextFilter[] replacedCharacters = new TextFilter[]{a, b};
+        List<TextFilter> immutableReplacedCharacters = Collections.unmodifiableList(Arrays.asList(replacedCharacters));
+
+        assertEquals(new MultiTextFilter(immutableReplacedCharacters).filter("nananaa"), "nBnBnBB");
     }
 }

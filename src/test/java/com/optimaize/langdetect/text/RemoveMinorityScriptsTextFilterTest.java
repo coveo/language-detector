@@ -17,7 +17,8 @@
 package com.optimaize.langdetect.text;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Fabian Kessler

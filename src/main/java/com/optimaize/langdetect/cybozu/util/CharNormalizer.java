@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Some character normalization (and exclusion) functionality.
- *
+ * <p>
  * This functionality was previously embedded in the NGram class.
  *
  * @author Nakatani Shuyo
@@ -32,9 +32,10 @@ public class CharNormalizer {
 
     /**
      * Character Normalization (and exclusion).
+     *
      * @return Normalized character, the space to exclude the character.
      */
-    public static char normalize(char ch){
+    public static char normalize(char ch) {
         //this is even cheaper than the hashmap lookup. because it covers most use cases, it's worth the check.
         if (ch <= 127) { //ascii (basic latin)
             if (ch < 'A' || (ch < 'a' && ch > 'Z') || ch > 'z') {
@@ -48,12 +49,12 @@ public class CharNormalizer {
         return result == null ? ch : result;
     }
 
-    private static char normalize0(char ch){
+    private static char normalize0(char ch) {
         Character.UnicodeBlock block = Character.UnicodeBlock.of(ch);
         if (block == Character.UnicodeBlock.BASIC_LATIN) { //see https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
-            if (ch<'A' || (ch<'a' && ch >'Z') || ch>'z') ch = ' ';
+            if (ch < 'A' || (ch < 'a' && ch > 'Z') || ch > 'z') ch = ' ';
         } else if (block == Character.UnicodeBlock.LATIN_1_SUPPLEMENT) {
-            if (LATIN1_EXCLUDED.indexOf(ch)>=0) ch = ' ';
+            if (LATIN1_EXCLUDED.indexOf(ch) >= 0) ch = ' ';
         } else if (block == Character.UnicodeBlock.GENERAL_PUNCTUATION) {
             ch = ' ';
         } else if (block == Character.UnicodeBlock.ARABIC) {
@@ -75,11 +76,13 @@ public class CharNormalizer {
     }
 
     private static final String LATIN1_EXCLUDED = Messages.getString("NGram.LATIN1_EXCLUDE");
-    private static final Map<Character, Character> CJK_MAP = new HashMap<>();;
+    private static final Map<Character, Character> CJK_MAP = new HashMap<>();
+    ;
     /**
      * Has mappings for overrides. What's not in the map means keep the original.
      */
-    private static final Map<Character,Character> NORMALIZE_MAP = new HashMap<>();;
+    private static final Map<Character, Character> NORMALIZE_MAP = new HashMap<>();
+    ;
 
     /**
      * CJK Kanji Normalization Mapping
@@ -216,16 +219,16 @@ public class CharNormalizer {
     static {
         for (String cjk_list : CJK_CLASS) {
             char representative = cjk_list.charAt(0);
-            for (int i=0;i<cjk_list.length();++i) {
+            for (int i = 0; i < cjk_list.length(); ++i) {
                 CJK_MAP.put(cjk_list.charAt(i), representative);
             }
         }
 
         //using int because char would loop infinitely thanks to resetting to 0 after 65535
-        for (int c=0;c<=65535;c++) {
-            char x = normalize0((char)c);
-            if(c != x){
-                NORMALIZE_MAP.put((char)c, x);
+        for (int c = 0; c <= 65535; c++) {
+            char x = normalize0((char) c);
+            if (c != x) {
+                NORMALIZE_MAP.put((char) c, x);
             }
         }
     }

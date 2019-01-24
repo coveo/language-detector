@@ -17,8 +17,11 @@
 package com.optimaize.langdetect.profiles;
 
 import com.optimaize.langdetect.ngram.NgramExtractors;
-import com.optimaize.langdetect.text.*;
+import com.optimaize.langdetect.text.CommonTextObjectFactories;
+import com.optimaize.langdetect.text.TextObject;
+import com.optimaize.langdetect.text.TextObjectFactory;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**

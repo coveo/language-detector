@@ -31,34 +31,33 @@ import java.util.Set;
 /**
  * {@link LangProfile} is a Language Profile Class.
  * Users don't use this class directly.
- *
+ * <p>
  * TODO split into builder and immutable class.
- *
+ * <p>
  * TODO currently this only makes n-grams with the space before a word included. no n-gram with the space after the word.
  * Example: "foo" creates " fo" as 3gram, but not "oo ". Either this is a bug, or if intended then needs documentation.
- * 
+ *
  * @author Nakatani Shuyo
  * @deprecated replaced by LanguageProfile
  */
-@Deprecated
 public class LangProfile implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * n-grams that occur less than this often can be removed using omitLessFreq().
      * This number can change, see LESS_FREQ_RATIO.
      */
-	private static final int MINIMUM_FREQ = 2;
+    private static final int MINIMUM_FREQ = 2;
 
     /**
      * Explanation by example:
-     *
+     * <p>
      * If the most frequent n-gram occurs 1 mio times, then
      * 1'000'000 / this (100'000) = 10.
      * 10 is larger than MINIMUM_FREQ (2), thus MINIMUM_FREQ remains at 2.
      * All n-grams that occur less than 2 times can be removed as noise using omitLessFreq().
-     *
+     * <p>
      * If the most frequent n-gram occurs 5000 times, then
      * 5'000 / this (100'000) = 0.05.
      * 0.05 is smaller than MINIMUM_FREQ (2), thus MINIMUM_FREQ becomes 0.
@@ -89,27 +88,30 @@ public class LangProfile implements Serializable {
     private int[] nWords = new int[NGram.N_GRAM];
 
     /**
-     * Constructor for JSONIC 
+     * Constructor for JSONIC
      */
-    public LangProfile() {}
+    public LangProfile() {
+    }
 
     /**
      * Normal Constructor
+     *
      * @param name language name
      */
     public LangProfile(String name) {
         this.setName(name);
     }
-    
+
     /**
      * Add n-gram to profile
+     *
      * @param gram
      */
     public void add(@NotNull String gram) {
         if (name == null) throw new IllegalStateException();
         int len = gram.length();
         if (len < 1 || len > NGram.N_GRAM) {
-            throw new IllegalArgumentException("ngram length must be 1-3 but was "+len+": >>>"+gram+"<<<!");
+            throw new IllegalArgumentException("ngram length must be 1-3 but was " + len + ": >>>" + gram + "<<<!");
         }
         nWords[len - 1]++;
         if (freq.containsKey(gram)) {
@@ -121,10 +123,10 @@ public class LangProfile implements Serializable {
 
     /**
      * Removes ngrams that occur fewer times than MINIMUM_FREQ to get rid of rare ngrams.
-     *
+     * <p>
      * Also removes ascii ngrams if the total number of ascii ngrams is less than one third of the total.
      * This is done because non-latin text (such as Chinese) often has some latin noise in between.
-     *
+     * <p>
      * TODO split the 2 cleaning to separate methods.
      * TODO distinguish ascii/latin, currently it looks for latin only, should include characters with diacritics, eg Vietnamese.
      * TODO current code counts ascii, but removes any latin. is that desired? if so then this needs documentation.
@@ -134,14 +136,14 @@ public class LangProfile implements Serializable {
 
         int threshold = nWords[0] / LESS_FREQ_RATIO;
         if (threshold < MINIMUM_FREQ) threshold = MINIMUM_FREQ;
-        
+
         Set<String> keys = freq.keySet();
         int roman = 0;
-        for(Iterator<String> i = keys.iterator(); i.hasNext(); ){
+        for (Iterator<String> i = keys.iterator(); i.hasNext(); ) {
             String key = i.next();
             int count = freq.get(key);
             if (count <= threshold) {
-                nWords[key.length()-1] -= count;
+                nWords[key.length() - 1] -= count;
                 i.remove();
             } else {
                 if (key.matches("^[A-Za-z]$")) {
@@ -153,37 +155,37 @@ public class LangProfile implements Serializable {
         // roman check
         if (roman < nWords[0] / 3) {
             Set<String> keys2 = freq.keySet();
-            for(Iterator<String> i = keys2.iterator(); i.hasNext(); ){
+            for (Iterator<String> i = keys2.iterator(); i.hasNext(); ) {
                 String key = i.next();
                 if (key.matches(".*[A-Za-z].*")) {
-                    nWords[key.length()-1] -= freq.get(key);
+                    nWords[key.length() - 1] -= freq.get(key);
                     i.remove();
                 }
             }
         }
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Map<String, Integer> getFreq() {
-		return freq;
-	}
+    public Map<String, Integer> getFreq() {
+        return freq;
+    }
 
-	public void setFreq(Map<String, Integer> freq) {
-		this.freq = freq;
-	}
+    public void setFreq(Map<String, Integer> freq) {
+        this.freq = freq;
+    }
 
-	public int[] getNWords() {
-		return nWords;
-	}
+    public int[] getNWords() {
+        return nWords;
+    }
 
-	public void setNWords(int[] nWords) {
-		this.nWords = nWords;
-	}
+    public void setNWords(int[] nWords) {
+        this.nWords = nWords;
+    }
 }

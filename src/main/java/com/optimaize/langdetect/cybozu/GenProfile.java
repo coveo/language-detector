@@ -16,8 +16,8 @@
 
 package com.optimaize.langdetect.cybozu;
 
-import com.optimaize.langdetect.cybozu.util.TagExtractor;
 import com.optimaize.langdetect.cybozu.util.LangProfile;
+import com.optimaize.langdetect.cybozu.util.TagExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Load Wikipedia's abstract XML as corpus and generate its language profile in JSON format.
- * 
+ *
  * @author Nakatani Shuyo
  */
 public class GenProfile {
@@ -38,6 +38,7 @@ public class GenProfile {
 
     /**
      * Load Wikipedia abstract database file and generate its language profile
+     *
      * @param lang target language name
      * @param file target database file path
      * @return Language profile instance
@@ -47,8 +48,8 @@ public class GenProfile {
         LangProfile profile = new LangProfile(lang);
 
         try (InputStream is = file.getName().endsWith(".gz") ?
-            new GZIPInputStream(new BufferedInputStream(new FileInputStream(file))) :
-            new BufferedInputStream(new FileInputStream(file))) {
+                new GZIPInputStream(new BufferedInputStream(new FileInputStream(file))) :
+                new BufferedInputStream(new FileInputStream(file))) {
 
             TagExtractor tagextractor = new TagExtractor("abstract", 100);
 
@@ -58,15 +59,15 @@ public class GenProfile {
                 reader = factory.createXMLStreamReader(is);
                 while (reader.hasNext()) {
                     switch (reader.next()) {
-                    case XMLStreamReader.START_ELEMENT:
-                        tagextractor.setTag(reader.getName().toString());
-                        break;
-                    case XMLStreamReader.CHARACTERS:
-                        tagextractor.add(reader.getText());
-                        break;
-                    case XMLStreamReader.END_ELEMENT:
-                        tagextractor.closeTag(profile);
-                        break;
+                        case XMLStreamReader.START_ELEMENT:
+                            tagextractor.setTag(reader.getName().toString());
+                            break;
+                        case XMLStreamReader.CHARACTERS:
+                            tagextractor.add(reader.getText());
+                            break;
+                        case XMLStreamReader.END_ELEMENT:
+                            tagextractor.closeTag(profile);
+                            break;
                     }
                 }
             } catch (XMLStreamException e) {

@@ -53,6 +53,7 @@ public class TechnicalLanguageDetectorImplTest {
 
         return detectorBuilder.build();
     }
+
     private void add(LanguageDetectorBuilder detectorBuilder, LanguageProfileBuilder profileBuilder, String trainingEn) {
         for (String w : trainingEn.split(" ")) {
             profileBuilder.addGram(w);

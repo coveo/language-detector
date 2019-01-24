@@ -56,5 +56,5 @@ public class BackwardsCompatibleNgramFilterTest {
         assertFalse(filter.use("a c"));
         assertFalse(filter.use("ABC"));
     }
-    
+
 }

@@ -42,8 +42,8 @@ public class DetectedLanguage implements Comparable<DetectedLanguage> {
      * @param probability 0-1
      */
     public DetectedLanguage(@NotNull LdLocale locale, double probability) {
-        if (probability<0d) throw new IllegalArgumentException("Probability must be >= 0 but was "+probability);
-        if (probability>1d) throw new IllegalArgumentException("Probability must be <= 1 but was "+probability);
+        if (probability < 0d) throw new IllegalArgumentException("Probability must be >= 0 but was " + probability);
+        if (probability > 1d) throw new IllegalArgumentException("Probability must be <= 1 but was " + probability);
         this.locale = locale;
         this.probability = probability;
     }
@@ -61,7 +61,7 @@ public class DetectedLanguage implements Comparable<DetectedLanguage> {
     }
 
     public String toString() {
-        return "DetectedLanguage["+ locale + ":" + probability+"]";
+        return "DetectedLanguage[" + locale + ":" + probability + "]";
     }
 
     /**
@@ -70,7 +70,7 @@ public class DetectedLanguage implements Comparable<DetectedLanguage> {
     @Override
     public int compareTo(DetectedLanguage o) {
         int compare = Double.compare(o.probability, this.probability);
-        if (compare!=0) return compare;
+        if (compare != 0) return compare;
         return this.locale.toString().compareTo(o.locale.toString());
     }
 }

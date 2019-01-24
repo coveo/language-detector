@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * A language profile knows the locale (language), and contains the n-grams and some statistics.
@@ -105,7 +106,7 @@ public interface LanguageProfile {
      * Iterates all ngram strings with frequency.
      */
     @NotNull
-    Iterable<Map.Entry<String,Integer>> iterateGrams();
+    Stream<Map.Entry<String,Integer>> iterateGrams();
 
     /**
      * Iterates all gramLength-gram strings with frequency.
